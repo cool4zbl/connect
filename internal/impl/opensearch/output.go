@@ -256,6 +256,18 @@ func (e *Output) Connect(ctx context.Context) error {
 		return err
 	}
 
+	// Test the connection
+	_, err = client.Info(ctx, nil)
+	if err != nil {
+		return fmt.Errorf("failed to create client: %w", err)
+	}
+
+	e.log.Debugf(
+		"Successfully create client to [%s] with options: %v\n",
+		strings.Join(e.conf.clientOpts.Client.Addresses, ","),
+		e.conf.clientOpts.Client,
+	)
+
 	e.client = client
 	return nil
 }
